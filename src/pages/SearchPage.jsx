@@ -5,19 +5,22 @@ import Pagination from 'components/Pagination';
 import RepositoryCard from 'components/RepositoryCard';
 
 const SearchPage = () => {
-  const { perPage, page, total, repositoriesList, isFetching, getRepositories, setPage } = useContext(GitHubRepositoriesContext);
+  const { perPage, page, total, repositoriesList, isFetching, setPage, getRepositories, clearResults } = useContext(GitHubRepositoriesContext);
 
   return (
     <div className="app-body">
       <div className="container">
-        <SearchForm onSubmit={getRepositories} />
+        <SearchForm onSubmit={getRepositories} onClear={clearResults} />
         {
           isFetching &&
           <p>Loading ...</p>
         }
+        <div>
+          <p>{total} repository results</p>
+        </div>
         {
           !isFetching &&
-          repositoriesList.length &&
+          repositoriesList.length > 0 &&
           repositoriesList.map((repo) => {
             return (<RepositoryCard key={repo.id} repository={repo} />)
           })

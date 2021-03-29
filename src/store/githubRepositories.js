@@ -27,8 +27,14 @@ const GitHubRepositoriesProvider = (props) => {
       })
   }
 
+  const clearResults = () => {
+    setRepositoriesList([]);
+    setPage(1);
+    setTotal(0);
+  }
+
   const { Provider } = GitHubRepositoriesContext;
-  return <Provider value={{perPage, page, total, repositoriesList, isFetching, getRepositories, setPage}}>{children}</Provider>
+  return <Provider value={{perPage, page, total, repositoriesList, isFetching, setPage, setPerPage, getRepositories, clearResults}}>{children}</Provider>
 };
 
 export {GitHubRepositoriesContext, GitHubRepositoriesProvider};

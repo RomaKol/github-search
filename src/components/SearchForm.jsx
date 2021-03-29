@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const SearchForm = (props) => {
-  const { onSubmit } = props;
+  const { onSubmit, onClear } = props;
   const [value, setValue] = useState('');
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -9,15 +9,22 @@ const SearchForm = (props) => {
   const handleSubmit = () => {
     onSubmit(value);
   };
+  const handleClear = () => {
+    onClear();
+    setValue('');
+  }
 
   return (
     <div className="search">
       <div className="row">
-        <div className="col-12 col-md-9">
+        <div className="col-12 col-md-8">
           <input type="text" onChange={handleChange} value={value} className="d-block w-100 mb-30 search__input"/>
         </div>
-        <div className="col-12 col-md-3">
+        <div className="col-12 col-md-2">
           <button onClick={handleSubmit} disabled={!value} className="d-block w-100 mb-30 search__button">Search</button>
+        </div>
+        <div className="col-12 col-md-2">
+          <button onClick={handleClear} disabled={!value} className="d-block w-100 mb-30 search__button">Cancel</button>
         </div>
       </div>
     </div>
