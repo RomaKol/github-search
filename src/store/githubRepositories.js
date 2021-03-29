@@ -10,16 +10,25 @@ const GitHubRepositoriesProvider = (props) => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [repositoriesList, setRepositoriesList] = useState([]);
+  const [isFetching, setFetching] = useState(false)
 
   const getRepositories = (page, items, values) => {
-    setPage(page);
-    GitHubService.getRepositories(page, items, values).then(reponse => {
-      console.log("reponse", reponse)
-    })
+    setFetching(true);
+    GitHubService.getRepositories(page, items, values)
+      .then(response => {
+        setFetching(false);
+        const { total_count, items } = response;
+        setTotal(total_count);
+        setRepositoriesList(items);
+      })
+      .catch(error => {
+        setFetching(false);
+        console.log("Error", error);
+      })
   }
 
   const { Provider } = GitHubRepositoriesContext;
-  return <Provider value={{perPage, page, total, repositoriesList, getRepositories}}>{children}</Provider>
+  return <Provider value={{perPage, page, total, repositoriesList, isFetching, getRepositories, setPage}}>{children}</Provider>
 };
 
 export {GitHubRepositoriesContext, GitHubRepositoriesProvider};

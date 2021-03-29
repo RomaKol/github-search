@@ -15,7 +15,7 @@ api.interceptors.response.use(handleResponse, handleResponseError);
 
 class GitHubService {
   getRepositories(page, items, values) {
-    return api.get(`/search/users?q=kol&per_page=30&page=1&order=asc`);
+    return api.get(`/search/repositories?q=kol&per_page=30&page=1&order=asc&sort=stars`);
   }
 }
 
