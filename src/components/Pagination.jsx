@@ -30,7 +30,7 @@ const Pagination = props => {
         previousLinkClassName={"pagination-link pagination-link--text"}
         breakClassName={"pagination-item pagination-break"}
         breakLinkClassName={"pagination-link"}
-        disabledClassName={"pagination-link--disabled"}
+        disabledClassName={"disabled"}
         forcePage={currentPage}
         onPageChange={handlePageChange}
         marginPagesDisplayed={3}

@@ -1,0 +1,17 @@
+$root: "/";
+
+// import standards
+//-----------------------------------------------------------------------------------
+@import "standards/mixins.scss";
+@import "standards/variables.scss";
+@import "standards/reset.scss";
+@import "standards/media.scss";
+@import "standards/grid.scss";
+@import "standards/common.scss";
+
+// import components
+//-----------------------------------------------------------------------------------
+@import "components/repository.scss";
+@import "components/pagination.scss";
+//-----------------------------------------------------------------------------------
+

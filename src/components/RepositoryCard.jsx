@@ -6,12 +6,12 @@ const RepositoryCard = (props) => {
   // console.log("repository", repository);
   return (
     <div className="repository">
-      <div className="repository--title">{repository.full_name}</div>
+      <div className="repository__title">{repository.full_name}</div>
       {
         repository.description &&
-        <div className="repository--description">{repository.description}</div>
+        <div className="repository__description">{repository.description}</div>
       }
-      <div className="repository--stars">{repository.stargazers_count}</div>
+      <div className="repository__stars">{repository.stargazers_count}</div>
     </div>
   );
 }
