@@ -8,27 +8,26 @@ const GitHubRepositoriesProvider = (props) => {
   const { children } = props;
   const [perPage, setPerPage] = useState(30);
   const [total, setTotal] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentValue, setCurrentValue] = useState(1);
   const [repositoriesList, setRepositoriesList] = useState([]);
   const [isFetching, setFetching] = useState(false);
-  const [cacheList, setCacheList] = useState([]);
-  const [cacheQuery, setCacheQuery] = useState('');
+  const [cache, setCache] = useState({});
 
-  const cache = () => {
-    setCacheList([...repositoriesList]);
-    setCacheQuery(`q=${currentValue}&page=${currentPage}`);
+  const updateCache = (key, value) => {
+    const newCache = {
+      ...cache,
+      [key]: [...value]
+    }
+    const keys = Object.keys(cache);
+    if(keys.length > 4) {
+      delete newCache[keys[0]]
+    }
+    setCache(newCache);
   }
 
   const getRepositories = (value, page) => {
-    if (cacheQuery === `q=${value}&page=${page}`) {
-      const newList = [...cacheList];
-      cache();
-      setRepositoriesList([...newList]);
-      setCurrentPage(page);
-      setCurrentValue(value);
+    if(cache[`q=${value}&page=${page}`]){
+      setRepositoriesList(cache[`q=${value}&page=${page}`]);
     } else {
-      cache();
       setFetching(true);
       GitHubService.getRepositories(value, page)
         .then(response => {
@@ -36,8 +35,7 @@ const GitHubRepositoriesProvider = (props) => {
           const {total_count, items} = response;
           setTotal(total_count);
           setRepositoriesList(items);
-          setCurrentPage(page);
-          setCurrentValue(value);
+          updateCache(`q=${value}&page=${page}`, items);
         })
         .catch(error => {
           setFetching(false);
@@ -47,11 +45,8 @@ const GitHubRepositoriesProvider = (props) => {
   }
 
   const clearResults = () => {
-    cache();
     setRepositoriesList([]);
     setTotal(0);
-    setCurrentPage(0);
-    setCurrentValue('');
   }
 
   const { Provider } = GitHubRepositoriesContext;

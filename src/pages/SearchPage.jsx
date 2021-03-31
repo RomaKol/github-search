@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GitHubRepositoriesContext } from 'store/githubRepositories';
 import SearchForm from 'components/SearchForm';
 import Pagination from 'components/Pagination';
@@ -12,14 +12,17 @@ const SearchPage = (props) => {
   const { queryParams } = props;
   const page = parseInt(queryParams.page) || 1;
   const text = queryParams.text;
+  const [currentPage, setCurrentPage] = useState(page);
 
   const handleTextChange = value => {
     pushQueryParams({ text: value, page: 1 });
+    setCurrentPage(1);
     getRepositories(value, 1);
   }
 
   const handlePaginationChange = page => {
     pushQueryParams({ page });
+    setCurrentPage(page);
     getRepositories(text, page);
   }
 
@@ -50,7 +53,7 @@ const SearchPage = (props) => {
         }
         {total > perPage && (
           <Pagination
-            page={page}
+            page={currentPage}
             perPage={perPage}
             total={total}
             onChange={handlePaginationChange}
