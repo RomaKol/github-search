@@ -14,8 +14,8 @@ const SearchPage = (props) => {
   const text = queryParams.text;
 
   const handleTextChange = value => {
-    pushQueryParams({ text: value });
-    getRepositories(text, page);
+    pushQueryParams({ text: value, page: 1 });
+    getRepositories(value, 1);
   }
 
   const handlePaginationChange = page => {
