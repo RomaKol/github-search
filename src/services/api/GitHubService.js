@@ -14,8 +14,8 @@ api.interceptors.request.use(handleRequest);
 api.interceptors.response.use(handleResponse, handleResponseError);
 
 class GitHubService {
-  getRepositories(page, items, values) {
-    return api.get(`/search/repositories?per_page=30&order=desc&sort=stars&q=kol&page=1`);
+  getRepositories(value, page) {
+    return api.get(`/search/repositories?per_page=30&order=desc&sort=stars&q=${value}&page=${page}`);
   }
 }
 

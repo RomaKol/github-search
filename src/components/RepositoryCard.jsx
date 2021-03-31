@@ -3,7 +3,6 @@ import React from 'react';
 const RepositoryCard = (props) => {
   const { repository } = props;
 
-  // console.log("repository", repository);
   return (
     <div className="repository">
       <div className="repository__title">{repository.full_name}</div>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SearchForm = (props) => {
-  const { onSubmit, onClear } = props;
+  const { onSubmit, onClear, text } = props;
   const [value, setValue] = useState('');
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -10,9 +11,13 @@ const SearchForm = (props) => {
     onSubmit(value);
   };
   const handleClear = () => {
-    onClear();
     setValue('');
-  }
+    onClear();
+  };
+
+  useEffect(() => {
+    text && setValue(text)
+  }, [])
 
   return (
     <div className="search">

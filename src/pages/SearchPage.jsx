@@ -1,18 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GitHubRepositoriesContext } from 'store/githubRepositories';
 import SearchForm from 'components/SearchForm';
 import Pagination from 'components/Pagination';
 import RepositoryCard from 'components/RepositoryCard';
 import { compose } from 'recompose';
 import withQueryParams from 'HOC/withQueryParams';
+import { pushQueryParams, clearQueryParams } from 'services/history';
 
-const SearchPage = () => {
-  const { perPage, page, total, repositoriesList, isFetching, setPage, getRepositories, clearResults } = useContext(GitHubRepositoriesContext);
+const SearchPage = (props) => {
+  const { perPage, total, repositoriesList, isFetching, getRepositories, clearResults } = useContext(GitHubRepositoriesContext);
+  const { queryParams } = props;
+  const page = parseInt(queryParams.page) || 1;
+  const text = queryParams.text;
+
+  const handleTextChange = value => {
+    pushQueryParams({ text: value });
+    getRepositories(text, page);
+  }
+
+  const handlePaginationChange = page => {
+    pushQueryParams({ page });
+    getRepositories(text, page);
+  }
+
+  const handleClear = () => {
+    clearQueryParams();
+    clearResults();
+  }
+
+  useEffect(() => {
+    text && getRepositories(text, page);
+  }, [])
 
   return (
     <div className="app-body">
       <div className="container">
-        <SearchForm onSubmit={getRepositories} onClear={clearResults} />
+        <SearchForm text={text} onSubmit={handleTextChange} onClear={handleClear} />
         <div className="section-title">{total} repository results</div>
         {
           isFetching &&
@@ -30,7 +53,7 @@ const SearchPage = () => {
             page={page}
             perPage={perPage}
             total={total}
-            onChange={setPage}
+            onChange={handlePaginationChange}
           />
         )}
       </div>
